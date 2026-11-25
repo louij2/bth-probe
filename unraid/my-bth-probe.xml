@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>bth-probe</Name>
+  <Repository>louij2/bth-probe:latest</Repository>
+  <Registry>https://hub.docker.com/r/louij2/bth-probe</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/louij2/bth-probe</Support>
+  <Project>https://github.com/louij2/bth-probe</Project>
+  <Overview>Checks that MikroTik Back To Home works as the way in when Tailscale is down. Connects as one BTH user through the MikroTik relay, like a phone would, and every few minutes tests the tunnel, DNS through the BTH resolver, and the admin UIs. Prometheus metrics on /metrics. Needs NET_ADMIN and the host's wireguard module. Put BTH_PRIVATE_KEY in the env-file named in Extra Parameters, not here.</Overview>
+  <Category>Tools: Network:Management</Category>
+  <WebUI>http://[IP]:[PORT:9841]/metrics</WebUI>
+  <TemplateURL/>
+  <Icon>https://raw.githubusercontent.com/selfhst/icons/main/png/wireguard.png</Icon>
+  <ExtraParams>--restart=unless-stopped --memory=64m --cpus=0.2 --cap-add=NET_ADMIN --env-file=/mnt/user/appdata/bth-probe/.env</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled/>
+  <DonateText/>
+  <DonateLink/>
+  <Requires>A MikroTik Back To Home user for the probe (allow-lan=yes); its private key in the env-file.</Requires>
+  <Config Name="Metrics port" Target="9841" Default="9841" Mode="tcp" Description="/metrics" Type="Port" Display="always" Required="true" Mask="false">9841</Config>
+  <Config Name="BTH_SERVER_PUBLIC_KEY" Target="BTH_SERVER_PUBLIC_KEY" Default="" Mode="" Description="/ip cloud vpn-public-key (changes when BTH is revoked/rotated)" Type="Variable" Display="always" Required="true" Mask="false"></Config>
+  <Config Name="BTH_ENDPOINT" Target="BTH_ENDPOINT" Default="" Mode="" Description="vpn-dns-name:vpn-port from /ip cloud, e.g. xxxx.vpn.mynetname.net:17007 (port changes on rotation)" Type="Variable" Display="always" Required="true" Mask="false"></Config>
+  <Config Name="BTH_ADDRESS" Target="BTH_ADDRESS" Default="" Mode="" Description="The probe user's client-address, e.g. 192.168.216.6/32" Type="Variable" Display="always" Required="true" Mask="false"></Config>
+  <Config Name="HOST_LABEL" Target="HOST_LABEL" Default="crs326" Mode="" Description="host label on every metric" Type="Variable" Display="always" Required="false" Mask="false">crs326</Config>
+  <Config Name="PROBE_INTERVAL" Target="PROBE_INTERVAL" Default="120" Mode="" Description="Seconds between runs" Type="Variable" Display="advanced" Required="false" Mask="false">120</Config>
+  <Config Name="DNS_NAMES" Target="DNS_NAMES" Default="" Mode="" Description="Space-separated names that must resolve to private IPs via the BTH resolver (empty = built-in defaults)" Type="Variable" Display="advanced" Required="false" Mask="false"></Config>
+  <Config Name="HTTP_TARGETS" Target="HTTP_TARGETS" Default="" Mode="" Description="Space-separated host:port HTTPS targets (empty = built-in defaults)" Type="Variable" Display="advanced" Required="false" Mask="false"></Config>
+</Container>
